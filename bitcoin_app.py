@@ -36,29 +36,27 @@ from tensorflow.keras.models import load_model
 # print(f"Predicted Close Value: {predicted_close[0, 0]}")
 
 
+
+
 def main():
     st.title('Bitcoin Predictor')
     st.subheader('Detect Defect Present', divider=True)
+    st.markdown('The Prediction model will predict the Closing Prices of Bitcoin based on histroical data provided:')
 
-# def main():
-#     st.title('Bitcoin Predictor')
-#     st.subheader('Detect Defect Present', divider=True)
-#     st.markdown('The Prediction model will predict the Closing Prices of Bitcoin based on histroical data provided:')
+    # Input for historical data size
+    input_size = st.number_input("Enter the size of your historical data:", min_value=1, step=1, format="%d")
 
-#     # Input for historical data size
-#     input_size = st.number_input("Enter the size of your historical data:", min_value=1, step=1, format="%d")
+    # # Display user-input data in a table
+    # input_df = pd.DataFrame({'Day': range(1, input_size + 1), 'Closing Price': input_data})
+    # st.dataframe(input_df)
 
-#     # Display user-input data in a table
-#     input_df = pd.DataFrame({'Day': range(1, input_size + 1), 'Closing Price': input_data})
-#     st.dataframe(input_df)
+    # predicted_value = predicted_close
 
-#     predicted_value = predicted_close
-
-#     # Display predicted and actual values
-#     result_df = pd.DataFrame({'Day': range(1, input_size + 1),
-#                               'Predicted Closing Price': predicted_values})
-#     st.subheader('Actual vs Predicted Closing Prices:')
-#     st.dataframe(result_df)
+    # # Display predicted and actual values
+    # result_df = pd.DataFrame({'Day': range(1, input_size + 1),
+    #                           'Predicted Closing Price': predicted_values})
+    # st.subheader('Actual vs Predicted Closing Prices:')
+    # st.dataframe(result_df)
 
 if __name__ == '__main__':
     main()
