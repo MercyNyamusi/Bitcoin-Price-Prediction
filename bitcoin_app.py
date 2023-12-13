@@ -47,7 +47,7 @@ def main():
 
         # Display predicted closing price
         st.subheader(f'Predicted Closing Price for day {input_size + 1}:')
-        st.table(pd.DataFrame({'Predicted Closing Price': [predicted_close[0][0]]}))
+        st.table(pd.DataFrame({'Predicted Closing Price': predicted_close}))
 
 if __name__ == '__main__':
     main()
