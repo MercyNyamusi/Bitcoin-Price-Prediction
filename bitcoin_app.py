@@ -12,11 +12,13 @@ def main():
     # Input for historical data size
     input_size = st.number_input("Enter the size of your historical data:", min_value=1, step=1, format="%d")
 
+    # Initialize input_data with zeros
+    input_data = [0] * input_size
+
     if input_size > 0:
-        input_data = []
         for i in range(input_size):
             data = st.number_input(f"Enter the closing price for day {i + 1}:", key=f"input_{i}")
-            input_data.append(data)
+            input_data[i] = data
 
         # Display user-input data in a table
         input_df = pd.DataFrame({'Day': range(1, input_size + 1), 'Closing Price': input_data})
