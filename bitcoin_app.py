@@ -4,36 +4,36 @@ import pandas as pd
 import joblib
 from tensorflow.keras.models import load_model
 
-model_path = 'gru.sav'
-scaler_path = 'scaler.sav'
+# model_path = 'gru.sav'
+# scaler_path = 'scaler.sav'
 
-# initialising the trained models
-model = joblib.load(model_path)
-standard_scaler = joblib.load(scaler_path)
+# # initialising the trained models
+# model = joblib.load(model_path)
+# standard_scaler = joblib.load(scaler_path)
 
-# Collect input from the user
-input_size = int(input("Enter the size of your historical data: "))
-input_data = []
-for i in range(input_size):
-  data = float(input("Enter the closing price: "))
-  input_data.append(data)
+# # Collect input from the user
+# input_size = int(input("Enter the size of your historical data: "))
+# input_data = []
+# for i in range(input_size):
+#   data = float(input("Enter the closing price: "))
+#   input_data.append(data)
 
 
-# numpy array with the user input
-user_input = (np.array([input_data])).reshape(-1,1)
-user_input.shape
+# # numpy array with the user input
+# user_input = (np.array([input_data])).reshape(-1,1)
+# user_input.shape
 
-# Scale the input 
-scaled_input = standard_scaler.transform(user_input)
+# # Scale the input 
+# scaled_input = standard_scaler.transform(user_input)
 
-# prediction using the trained model
-predicted_close_scaled = model.predict(scaled_input)
+# # prediction using the trained model
+# predicted_close_scaled = model.predict(scaled_input)
 
-# Inverse transform to get the prediction in the original scale
-predicted_close = standard_scaler.inverse_transform(predicted_close_scaled)
+# # Inverse transform to get the prediction in the original scale
+# predicted_close = standard_scaler.inverse_transform(predicted_close_scaled)
 
-# predicted value
-print(f"Predicted Close Value: {predicted_close[0, 0]}")
+# # predicted value
+# print(f"Predicted Close Value: {predicted_close[0, 0]}")
 
 
 def main():
