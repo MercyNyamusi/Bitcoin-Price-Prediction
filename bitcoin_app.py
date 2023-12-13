@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 from PIL import Image
 
 def main():
-    st.title('Bitcoin Predictor')
+    st.title('Jijenge Bitcoin Price Predictor')
     image = Image.open('hero_image.png')
     st.image(image, caption='Bitcoin Predictor', width=600)
     st.subheader('Predict the Price of Bitcoin Based on Historical Data', divider=True)
