@@ -8,6 +8,7 @@ from PIL import Image
 def main():
     st.title('Bitcoin Predictor')
     image = Image.open('hero_image.png')
+    st.image(image, caption='Bitcoin Predictor', width=450)
     st.subheader('Predict the Price of Bitcoin Based on Historical Data', divider=True)
     st.markdown('The Prediction model will predict the Closing Prices of Bitcoin based on historical data provided:')
 
