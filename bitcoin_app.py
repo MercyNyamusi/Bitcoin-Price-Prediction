@@ -43,11 +43,11 @@ def main():
     # Inverse transform to get the prediction in the original scale
     predicted_close = standard_scaler.inverse_transform(predicted_close_scaled)
 
-    predicted_value = predicted_close[0, 0]
+    predicted_values = predicted_close
 
     # Display predicted and actual values
     result_df = pd.DataFrame({'Day': range(1, input_size + 1),
-                              'Predicted Closing Price': predicted_value})
+                              'Predicted Closing Price': predicted_values})
     st.subheader('Actual vs Predicted Closing Prices:')
     st.dataframe(result_df)
 
