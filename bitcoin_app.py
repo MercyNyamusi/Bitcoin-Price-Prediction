@@ -3,10 +3,12 @@ import streamlit as st
 import pandas as pd
 import joblib
 from tensorflow.keras.models import load_model
+from PIL import Image
 
 def main():
     st.title('Bitcoin Predictor')
-    st.subheader('Detect Defect Present', divider=True)
+    image = Image.open('hero_image.png')
+    st.subheader('Predict the Price of Bitcoin Based on Historical Data', divider=True)
     st.markdown('The Prediction model will predict the Closing Prices of Bitcoin based on historical data provided:')
 
     # Input for historical data size
