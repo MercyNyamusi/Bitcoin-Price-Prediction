@@ -7,13 +7,17 @@ from tensorflow.keras.models import load_model
 
 
 def main():
-    
     model_path = 'gru.sav'
     scaler_path = 'scaler.sav'
 
+    try:
     # initialising the trained models
-    model = joblib.load(model_path)
-    standard_scaler = joblib.load(scaler_path)
+      model = joblib.load(model_path)
+      standard_scaler = joblib.load(scaler_path)
+    except Exception as e:
+      st.error(f"Error loading models: {e}")
+      return
+
 
     st.title('Bitcoin Predictor')
     st.subheader('Detect Defect Present', divider=True)
@@ -22,11 +26,9 @@ def main():
     # Input for historical data size
     input_size = st.number_input("Enter the size of your historical data:", min_value=1, step=1, format="%d")
     
-    input_data = []
-    for i in range(input_size):
-      data = st.number_input("Enter the closing price: ")
-      input_data.append(data) 
+    input_data = ([st.number_input("Enter the closing price: ") for _ in range(input_size)])
 
+   
     # Display user-input data in a table
     input_df = pd.DataFrame({'Day': range(1, input_size + 1), 'Closing Price': input_data})
     st.dataframe(input_df)
@@ -43,7 +45,7 @@ def main():
     # Inverse transform to get the prediction in the original scale
     predicted_close = standard_scaler.inverse_transform(predicted_close_scaled)
 
-    predicted_values = predicted_close
+    predicted_values = predicted_close[0,0]
 
     # Display predicted and actual values
     result_df = pd.DataFrame({'Day': range(1, input_size + 1),
