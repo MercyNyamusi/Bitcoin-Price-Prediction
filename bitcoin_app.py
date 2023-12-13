@@ -4,56 +4,52 @@ import pandas as pd
 import joblib
 from tensorflow.keras.models import load_model
 
-
-
 def main():
-    model_path = 'gru.sav'
-    scaler_path = 'scaler.sav'
-
-    try:
-    # initialising the trained models
-      model = joblib.load(model_path)
-      standard_scaler = joblib.load(scaler_path)
-    except Exception as e:
-      st.error(f"Error loading models: {e}")
-      return
-
-
     st.title('Bitcoin Predictor')
     st.subheader('Detect Defect Present', divider=True)
-    st.markdown('The Prediction model will predict the Closing Prices of Bitcoin based on histroical data provided:')
+    st.markdown('The Prediction model will predict the Closing Prices of Bitcoin based on historical data provided:')
 
     # Input for historical data size
     input_size = st.number_input("Enter the size of your historical data:", min_value=1, step=1, format="%d")
-    
-    if input_size>0:
-      input_data = ([st.number_input("Enter the closing price: ") for _ in range(input_size)])
 
-    
-      # Display user-input data in a table
-      input_df = pd.DataFrame({'Day': range(1, input_size + 1), 'Closing Price': input_data})
-      st.dataframe(input_df)
+    if input_size > 0:
+        input_data = []
+        for i in range(input_size):
+            data = st.number_input(f"Enter the closing price for day {i + 1}:", key=f"input_{i}")
+            input_data.append(data)
 
-      #convert to numpy array
-      user_input = (np.array([input_data])).reshape(-1,1)
+        # Display user-input data in a table
+        input_df = pd.DataFrame({'Day': range(1, input_size + 1), 'Closing Price': input_data})
+        st.subheader('User Input Data:')
+        st.dataframe(input_df)
 
-      # Scale the input 
-      scaled_input = standard_scaler.transform(user_input)
+        # Convert to numpy array
+        user_input = np.array(input_data).reshape(-1, 1)
 
-      # prediction using the trained model
-      predicted_close_scaled = model.predict(scaled_input)
+        # Scale the input
+        scaler_path = 'scaler.sav'
+        standard_scaler = joblib.load(scaler_path)
+        scaled_input = standard_scaler.transform(user_input)
 
-      # Inverse transform to get the prediction in the original scale
-      predicted_close = standard_scaler.inverse_transform(predicted_close_scaled)
+        # Load the model
+        model_path = 'gru.sav'
+        try:
+            model = joblib.load(model_path)
+        except Exception as e:
+            st.error(f"Error loading the model: {e}")
+            return
 
-      predicted_values = predicted_close[0,0]
+        # Prediction using the trained model
+        predicted_close_scaled = model.predict(scaled_input)
 
-      # Display predicted and actual values
-      result_df = pd.DataFrame({'Day': range(1, input_size + 1),
-                                'Predicted Closing Price': predicted_values})
-      st.subheader('Actual vs Predicted Closing Prices:')
-      st.dataframe(result_df)
+        # Inverse transform to get the prediction in the original scale
+        predicted_close = standard_scaler.inverse_transform(predicted_close_scaled)
+
+        # Display predicted and actual values
+        result_df = pd.DataFrame({'Day': range(1, input_size + 1),
+                                  'Predicted Closing Price': predicted_close.flatten()})
+        st.subheader('Actual vs Predicted Closing Prices:')
+        st.dataframe(result_df)
 
 if __name__ == '__main__':
     main()
-
